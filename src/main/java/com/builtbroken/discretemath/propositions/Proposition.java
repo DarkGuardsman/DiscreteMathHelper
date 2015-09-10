@@ -80,7 +80,7 @@ public class Proposition
         //Multi statement
         else
         {
-            parse(statement);
+            proposition = parse(statement);
         }
     }
 
@@ -102,9 +102,11 @@ public class Proposition
         boolean prefix = false;
         boolean prefix2 = false;
 
+        System.out.println(s);
         for (int i = 0; i < s.length(); )
         {
             Character c = s.charAt(i);
+            System.out.println(c);
             if (c == '(')
             {
                 int index = s.indexOf(')', i);
@@ -123,7 +125,7 @@ public class Proposition
                     throw new RuntimeException("Invalid statement grouping, reduce multi statements into sets of two inside ( )");
                 }
             }
-            else if (EnglishLetters.isLetter(c))
+            else if (!(c + "").equalsIgnoreCase("v") && EnglishLetters.isLetter(c))
             {
                 if (!characters.contains(c))
                 {
@@ -132,6 +134,10 @@ public class Proposition
                 if (segmentA == null)
                 {
                     segmentA = "" + c;
+                }
+                else if (mid == null)
+                {
+                    throw new RuntimeException("Invalid statement, missing middle");
                 }
                 else if (segmentB == null)
                 {
@@ -167,8 +173,9 @@ public class Proposition
                 }
                 else
                 {
-                    throw new RuntimeException("Invalid statement");
+                    throw new RuntimeException("Invalid statement, mid is already set to " + mid +" but another symbol was found " + c);
                 }
+                i++;
             }
             else
             {

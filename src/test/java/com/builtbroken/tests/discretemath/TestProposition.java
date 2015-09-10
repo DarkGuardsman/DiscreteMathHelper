@@ -1,9 +1,7 @@
 package com.builtbroken.tests.discretemath;
 
 import com.builtbroken.discretemath.propositions.Proposition;
-import com.builtbroken.discretemath.propositions.types.EnumTypes;
-import com.builtbroken.discretemath.propositions.types.Negation;
-import com.builtbroken.discretemath.propositions.types.Variable;
+import com.builtbroken.discretemath.propositions.types.*;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -102,5 +100,60 @@ public class TestProposition
                 }
             }
         }
+    }
+
+    @Test
+    public void testSimpleANDStatement()
+    {
+        Proposition prop = new Proposition("p" + EnumTypes.CONJUNCTION.symbol + "q");
+        Assert.assertTrue(prop.characters.contains('p'));
+        Assert.assertTrue(prop.characters.contains('q'));
+        Assert.assertTrue("Proposition should be an instance of Conjunction, " + prop.proposition, prop.proposition instanceof Conjunction);
+        Assert.assertTrue(((Conjunction) prop.proposition).a instanceof Variable && ((Variable) ((Conjunction) prop.proposition).a).character == 'p');
+        Assert.assertTrue(((Conjunction) prop.proposition).b instanceof Variable && ((Variable) ((Conjunction) prop.proposition).b).character == 'q');
+    }
+
+    @Test
+    public void testSimpleORStatement()
+    {
+        Proposition prop = new Proposition("p" + EnumTypes.DISJUNCTION.symbol + "q");
+        Assert.assertTrue(prop.characters.contains('p'));
+        Assert.assertTrue(prop.characters.contains('q'));
+        Assert.assertTrue("Proposition should be an instance of Disjunction, " + prop.proposition, prop.proposition instanceof Disjunction);
+        Assert.assertTrue(((Disjunction) prop.proposition).a instanceof Variable && ((Variable) ((Disjunction) prop.proposition).a).character == 'p');
+        Assert.assertTrue(((Disjunction) prop.proposition).b instanceof Variable && ((Variable) ((Disjunction) prop.proposition).b).character == 'q');
+    }
+
+    @Test
+    public void testSimpleBiconditionalStatement()
+    {
+        Proposition prop = new Proposition("p" + EnumTypes.BICONDITIONAL.symbol + "q");
+        Assert.assertTrue(prop.characters.contains('p'));
+        Assert.assertTrue(prop.characters.contains('q'));
+        Assert.assertTrue("Proposition should be an instance of BiConditional, " + prop.proposition, prop.proposition instanceof Biconditional);
+        Assert.assertTrue(((Biconditional) prop.proposition).a instanceof Variable && ((Variable) ((Biconditional) prop.proposition).a).character == 'p');
+        Assert.assertTrue(((Biconditional) prop.proposition).b instanceof Variable && ((Variable) ((Biconditional) prop.proposition).b).character == 'q');
+    }
+
+    @Test
+    public void testSimpleConditionalStatement()
+    {
+        Proposition prop = new Proposition("p" + EnumTypes.CONDITIONAL.symbol + "q");
+        Assert.assertTrue(prop.characters.contains('p'));
+        Assert.assertTrue(prop.characters.contains('q'));
+        Assert.assertTrue("Proposition should be an instance of Conditional, " + prop.proposition, prop.proposition instanceof Conditional);
+        Assert.assertTrue(((Conditional) prop.proposition).a instanceof Variable && ((Variable) ((Conditional) prop.proposition).a).character == 'p');
+        Assert.assertTrue(((Conditional) prop.proposition).b instanceof Variable && ((Variable) ((Conditional) prop.proposition).b).character == 'q');
+    }
+
+    @Test
+    public void testSimpleXORStatement()
+    {
+        Proposition prop = new Proposition("p" + EnumTypes.XOR.symbol + "q");
+        Assert.assertTrue(prop.characters.contains('p'));
+        Assert.assertTrue(prop.characters.contains('q'));
+        Assert.assertTrue("Proposition should be an instance of Disjunction, " + prop.proposition, prop.proposition instanceof XOR);
+        Assert.assertTrue(((XOR) prop.proposition).a instanceof Variable && ((Variable) ((XOR) prop.proposition).a).character == 'p');
+        Assert.assertTrue(((XOR) prop.proposition).b instanceof Variable && ((Variable) ((XOR) prop.proposition).b).character == 'q');
     }
 }
