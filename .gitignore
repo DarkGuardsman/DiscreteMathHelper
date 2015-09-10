@@ -1,0 +1,16 @@
+/bin
+/out
+/run
+*.classpath
+*.project
+.settings/
+build/
+.gradle/
+output/
+.cache
+*.iml
+*.ipr
+*.iws
+*.idea/
+logs/
+*.xml
