@@ -17,8 +17,8 @@ import java.util.List;
 public class Proposition
 {
     public final String statement;
-    protected AbstractProposition proposition;
-    protected List<Character> characters = new ArrayList();
+    public AbstractProposition proposition;
+    public List<Character> characters = new ArrayList();
 
     public Proposition(String statement) throws RuntimeException
     {
@@ -44,9 +44,17 @@ public class Proposition
 
         if (statement.length() == 1)
         {
-            if (EnglishLetters.isLetter(chars[0]))
+            if ((chars[0] + "").equalsIgnoreCase("v"))
+            {
+                throw new RuntimeException("Invalid statement, v is reserved for conjunction statements and shouldn't be used as a variable");
+            }
+            else if (EnglishLetters.isLetter(chars[0]))
             {
                 proposition = new Variable(chars[0]);
+                if (!characters.contains(chars[0]))
+                {
+                    characters.add(chars[0]);
+                }
             }
             else
             {
@@ -59,6 +67,10 @@ public class Proposition
             if (chars[0] == EnumTypes.NEGATION.symbol.charAt(0) && EnglishLetters.isLetter(chars[1]))
             {
                 proposition = new Negation(chars[1]);
+                if (!characters.contains(chars[1]))
+                {
+                    characters.add(chars[1]);
+                }
             }
             else
             {
