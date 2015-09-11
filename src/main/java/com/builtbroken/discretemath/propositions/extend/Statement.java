@@ -12,7 +12,7 @@ public abstract class Statement extends AbstractProposition
 
     public Statement(AbstractProposition a, AbstractProposition b, String symbol)
     {
-        super(a.toString() + " " + symbol + " " + b.toString());
+        super("(" + a.toString() + " " + symbol + " " + b.toString() + ")");
         this.symbol = symbol;
         this.a = a;
         this.b = b;

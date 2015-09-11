@@ -2,7 +2,7 @@ package com.builtbroken.discretemath.propositions.types;
 
 import com.builtbroken.discretemath.propositions.extend.AbstractProposition;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Proposition with a single character that returns the value of the character
@@ -19,7 +19,7 @@ public class Variable extends AbstractProposition
     }
 
     @Override
-    public boolean getTruthValue(HashMap<Character, Boolean> inputs)
+    public boolean getTruthValue(Map<Character, Boolean> inputs)
     {
         return inputs.containsKey(character) ? inputs.get(character) : false;
     }

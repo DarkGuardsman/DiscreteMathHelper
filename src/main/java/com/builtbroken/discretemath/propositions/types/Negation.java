@@ -2,7 +2,7 @@ package com.builtbroken.discretemath.propositions.types;
 
 import com.builtbroken.discretemath.propositions.extend.AbstractProposition;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /** Inverse of the value of the input character
  * Created by Dark on 9/10/2015.
@@ -23,7 +23,7 @@ public class Negation extends AbstractProposition
     }
 
     @Override
-    public boolean getTruthValue(HashMap<Character, Boolean> inputs)
+    public boolean getTruthValue(Map<Character, Boolean> inputs)
     {
         return !a.getTruthValue(inputs);
     }

@@ -1,5 +1,8 @@
 package com.builtbroken.discretemath;
 
+import com.builtbroken.discretemath.propositions.Proposition;
+import com.builtbroken.discretemath.propositions.types.EnumTypes;
+
 import java.util.Scanner;
 
 /**
@@ -29,9 +32,12 @@ public class Main
             //Run GUI mode
         }
 
+        Proposition proposition = new Proposition("(p" + EnumTypes.BICONDITIONAL.symbol + "q)" + EnumTypes.BICONDITIONAL.symbol + "(r" + EnumTypes.BICONDITIONAL.symbol + "s)");
+        proposition.print();
+
         System.out.println("===========================================");
         System.out.println("Done... (press 'any' key to exit");
-        in.nextLine();
+        //in.nextLine();
         in.close();
     }
 }

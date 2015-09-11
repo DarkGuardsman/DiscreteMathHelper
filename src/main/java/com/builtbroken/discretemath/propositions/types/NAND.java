@@ -2,7 +2,7 @@ package com.builtbroken.discretemath.propositions.types;
 
 import com.builtbroken.discretemath.propositions.extend.AbstractProposition;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The inverse of AND
@@ -21,7 +21,7 @@ public class NAND extends Conjunction
     }
 
     @Override
-    public boolean getTruthValue(HashMap<Character, Boolean> inputs)
+    public boolean getTruthValue(Map<Character, Boolean> inputs)
     {
         return !super.getTruthValue(inputs);
     }

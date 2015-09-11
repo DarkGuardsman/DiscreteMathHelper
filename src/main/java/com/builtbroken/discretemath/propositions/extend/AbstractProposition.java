@@ -1,6 +1,6 @@
 package com.builtbroken.discretemath.propositions.extend;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Sentence that declares a fact that can be true or false but not both
@@ -22,10 +22,16 @@ public abstract class AbstractProposition
      * @param inputs - map of input character to boolean value
      * @return true or false
      */
-    public abstract boolean getTruthValue(final HashMap<Character, Boolean> inputs);
+    public abstract boolean getTruthValue(final Map<Character, Boolean> inputs);
 
     public String symbol()
     {
         return "";
+    }
+
+    @Override
+    public String toString()
+    {
+        return statement;
     }
 }

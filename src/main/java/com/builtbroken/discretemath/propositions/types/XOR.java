@@ -3,7 +3,7 @@ package com.builtbroken.discretemath.propositions.types;
 import com.builtbroken.discretemath.propositions.extend.AbstractProposition;
 import com.builtbroken.discretemath.propositions.extend.Statement;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Exclusive or
@@ -22,7 +22,7 @@ public class XOR extends Statement
     }
 
     @Override
-    public boolean getTruthValue(HashMap<Character, Boolean> inputs)
+    public boolean getTruthValue(Map<Character, Boolean> inputs)
     {
         return a.getTruthValue(inputs) != b.getTruthValue(inputs);
     }

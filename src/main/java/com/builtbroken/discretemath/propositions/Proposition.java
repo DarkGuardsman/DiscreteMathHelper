@@ -5,10 +5,12 @@ import com.builtbroken.discretemath.propositions.types.EnumTypes;
 import com.builtbroken.discretemath.propositions.types.Negation;
 import com.builtbroken.discretemath.propositions.types.Variable;
 import com.builtbroken.jlib.lang.EnglishLetters;
+import com.builtbroken.jlib.lang.StringHelpers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Statement that equals true or false but not both
@@ -17,9 +19,20 @@ import java.util.List;
 public class Proposition
 {
     public final String statement;
+    /** Main proposition, most likely containing sub propositions */
     public AbstractProposition proposition;
+    /** List of characters, used to generate truth table values */
     public List<Character> characters = new ArrayList();
+    /** List of propositions, mainly used for display of data */
+    public List<AbstractProposition> propositions = new ArrayList();
 
+
+    /**
+     * Creates a new proposition out of the string
+     *
+     * @param statement - statement, needs to be broken into groups of 2 so that its easy to validate
+     * @throws RuntimeException - thrown if the statement is invalid in any ways see {@link Proposition#parse()} for more details
+     */
     public Proposition(String statement) throws RuntimeException
     {
         if (statement == null || statement.replace(" ", "").isEmpty())
@@ -30,6 +43,10 @@ public class Proposition
         parse();
     }
 
+    /**
+     * Parses the statement {@link Proposition#statement} into a {@link Proposition#proposition} that
+     * can then be validated with a truth table
+     */
     public void parse()
     {
         char[] chars = statement.toCharArray();
@@ -55,6 +72,7 @@ public class Proposition
                 {
                     characters.add(chars[0]);
                 }
+                add(proposition);
             }
             else
             {
@@ -71,6 +89,7 @@ public class Proposition
                 {
                     characters.add(chars[1]);
                 }
+                add(proposition);
             }
             else
             {
@@ -81,9 +100,17 @@ public class Proposition
         else
         {
             proposition = parse(statement);
+            add(proposition);
         }
     }
 
+    /**
+     * Internal parser for breaking down segements into small segements turning then into Propositions that
+     * can easily be processed
+     *
+     * @param s - statement that can be a single value or a series of small propositions
+     * @return new Proposition of the logic contained in the statement provided
+     */
     protected AbstractProposition parse(String s)
     {
         if (s.length() == 1 && EnglishLetters.isLetter(s.charAt(0)))
@@ -197,11 +224,104 @@ public class Proposition
         if (prefix2)
             b = new Negation(b);
 
+        add(a);
+        add(b);
         return mid.newProposition(a, b);
     }
 
+    /**
+     * Adds a proposition to the list for display
+     *
+     * @param proposition
+     */
+    protected void add(AbstractProposition proposition)
+    {
+        if (!propositions.contains(proposition) && !(proposition instanceof Variable))
+        {
+            propositions.add(proposition);
+        }
+    }
+
+    /**
+     * Gets the truth value for the input variables. Does not check if
+     * the input contains all the correct characters. If some characters
+     * are missing the result most likely will be false.
+     *
+     * @param values - map of characters to there respective value
+     * @return true or false base on the data provided
+     */
     public boolean getTruthForValues(HashMap<Character, Boolean> values)
     {
         return proposition.getTruthValue(values);
+    }
+
+    public List<Map<Character, Boolean>> buildLines()
+    {
+        List<Map<Character, Boolean>> lines = new ArrayList();
+
+        //Number of rows to create for the number of character c^2
+        int rows = (int) Math.pow(2, characters.size());
+
+        //Loop threw rows
+        for (int i = 0; i < rows; i++)
+        {
+            //Loop threw characters
+            Map<Character, Boolean> map = new HashMap();
+            for (int j = characters.size() - 1; j >= 0; j--)
+            {
+                int v = (i / (int) Math.pow(2, j)) % 2;
+                map.put(characters.get(j), v == 1);
+            }
+            lines.add(map);
+        }
+        return lines;
+    }
+
+    public void print()
+    {
+        List<Map<Character, Boolean>> lines = buildLines();
+        String firstLine = "|";
+        for (int line = 0; line < lines.size(); line++)
+        {
+            Map<Character, Boolean> map = lines.get(line);
+            if (line == 0)
+            {
+                for (Map.Entry<Character, Boolean> entry : map.entrySet())
+                {
+                    firstLine += " " + entry.getKey() + " |";
+                }
+                for (AbstractProposition prop : propositions)
+                {
+                    firstLine += "  " + prop + "  |";
+                }
+                System.out.println(firstLine);
+                for (int i = 0; i < firstLine.length() + 1; i++)
+                {
+                    System.out.print("-");
+                }
+                System.out.println();
+            }
+            else if (line % 4 == 0)
+            {
+                System.out.println();
+            }
+
+            String outputLine = "|";
+            for (Map.Entry<Character, Boolean> entry : map.entrySet())
+            {
+                outputLine += " " + (entry.getValue() ? "T" : "F") + " |";
+            }
+            for (int p = 0; p < propositions.size(); p++)
+            {
+                AbstractProposition prop = propositions.get(p);
+                int index = firstLine.indexOf("|", outputLine.length());
+                int l = index - outputLine.length();
+                //System.out.println(index + "   " + outputLine.length() + "   " + l + "   " + outputLine);
+                outputLine += StringHelpers.padLeft((prop.getTruthValue(map) ? "T" : "F"), l / 2 + l % 2);
+                outputLine += StringHelpers.padRight("", l / 2);
+                outputLine += "|";
+            }
+            System.out.println(outputLine);
+        }
     }
 }

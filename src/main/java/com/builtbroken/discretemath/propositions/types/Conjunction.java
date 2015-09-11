@@ -3,7 +3,7 @@ package com.builtbroken.discretemath.propositions.types;
 import com.builtbroken.discretemath.propositions.extend.AbstractProposition;
 import com.builtbroken.discretemath.propositions.extend.Statement;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Propotion of the combination of two values that both equal true for the result to be true
@@ -25,7 +25,7 @@ public class Conjunction extends Statement
     }
 
     @Override
-    public boolean getTruthValue(HashMap<Character, Boolean> inputs)
+    public boolean getTruthValue(Map<Character, Boolean> inputs)
     {
         return a.getTruthValue(inputs) && b.getTruthValue(inputs);
     }
