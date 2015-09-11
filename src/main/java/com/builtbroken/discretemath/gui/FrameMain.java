@@ -1,5 +1,6 @@
 package com.builtbroken.discretemath.gui;
 
+import com.builtbroken.discretemath.Main;
 import com.builtbroken.discretemath.propositions.Proposition;
 import com.builtbroken.discretemath.propositions.types.EnumTypes;
 
@@ -30,6 +31,8 @@ public class FrameMain extends JFrame implements ActionListener
     public FrameMain()
     {
         setMinimumSize(new Dimension(500, 300));
+        setTitle("Discrete Math Helper v" + Main.VERSION);
+        setName("Discrete Math Helper");
         buildGUI();
     }
 
@@ -183,13 +186,15 @@ public class FrameMain extends JFrame implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        System.out.println("Click: " + e);
         if (e.getSource() == solve_button)
         {
             prop = null;
             try
             {
                 prop = new Proposition(statement_field.getText());
+            } catch (RuntimeException ex)
+            {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Parsing Error", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex)
             {
                 ex.printStackTrace();
