@@ -29,13 +29,16 @@ public class FrameMain extends JFrame implements ActionListener
 
     public FrameMain()
     {
-        this.setSize(800, 600);
+        setMinimumSize(new Dimension(500, 300));
         buildGUI();
     }
 
     protected void buildGUI()
     {
         Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+
         UpdatePanel topPanel = new UpdatePanel();
         UpdatePanel centerPanel = new UpdatePanel();
         tablePanel = new UpdatePanel();
@@ -48,9 +51,10 @@ public class FrameMain extends JFrame implements ActionListener
         buildTable(tablePanel);
         buildCenter(centerPanel);
 
-        this.add(topPanel, BorderLayout.NORTH);
-        this.add(centerPanel, BorderLayout.CENTER);
-        this.add(tablePanel, BorderLayout.SOUTH);
+        mainPanel.add(topPanel, BorderLayout.NORTH);
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
+        mainPanel.add(tablePanel, BorderLayout.SOUTH);
+        add(mainPanel);
 
         //exit icon handler
         addWindowListener(new WindowAdapter()
@@ -136,7 +140,8 @@ public class FrameMain extends JFrame implements ActionListener
 
     public void buildCenter(UpdatePanel panel)
     {
-        panel.setLayout(new GridLayout(1, 6, 0, 0));
+        UpdatePanel panel2 = new UpdatePanel();
+        panel2.setLayout(new GridLayout(1, 6, 0, 0));
         for (EnumTypes type : EnumTypes.values())
         {
             if (type != EnumTypes.VAL)
@@ -144,13 +149,15 @@ public class FrameMain extends JFrame implements ActionListener
                 JButton button = new JButton(type.symbol);
                 button.setActionCommand(type.symbol);
                 button.addActionListener(this);
-                panel.add(button);
+                button.setMaximumSize(new Dimension(100, 100));
+                button.setPreferredSize(new Dimension(50, 50));
+                button.setMinimumSize(new Dimension(30, 30));
+                panel2.add(button);
+
             }
         }
-
-        panel.setMaximumSize(new Dimension(1000, 100));
-        panel.setPreferredSize(new Dimension(600, 100));
-        panel.setMinimumSize(new Dimension(100, 100));
+        panel.setMinimumSize(new Dimension(600, 100));
+        panel.add(panel2);
     }
 
     /**
@@ -193,7 +200,10 @@ public class FrameMain extends JFrame implements ActionListener
         }
         else if (EnumTypes.isSymbol(e.getActionCommand().charAt(0)))
         {
-            statement_field.setText(statement_field.getText() + e.getActionCommand());
+            int caret = statement_field.getCaretPosition();
+            statement_field.setText(statement_field.getText().substring(0, caret) + e.getActionCommand() + statement_field.getText().substring(caret, statement_field.getText().length()));
+            statement_field.requestFocus();
+            statement_field.setCaretPosition(caret + 1);
         }
     }
 }
