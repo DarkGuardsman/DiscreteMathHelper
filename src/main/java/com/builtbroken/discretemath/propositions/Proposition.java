@@ -7,6 +7,7 @@ import com.builtbroken.discretemath.propositions.types.Variable;
 import com.builtbroken.jlib.lang.EnglishLetters;
 import com.builtbroken.jlib.lang.StringHelpers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,8 @@ public class Proposition
     public List<Character> characters = new ArrayList();
     /** List of propositions, mainly used for display of data */
     public List<AbstractProposition> propositions = new ArrayList();
+
+    public List<Map<Character, Boolean>> bool_cache;
 
 
     /**
@@ -277,7 +280,14 @@ public class Proposition
         return lines;
     }
 
-    public void print()
+    public List<Map<Character, Boolean>> getLines()
+    {
+        if (bool_cache == null)
+            bool_cache = buildLines();
+        return bool_cache;
+    }
+
+    public void print() throws IOException
     {
         List<Map<Character, Boolean>> lines = buildLines();
         String firstLine = "|";
@@ -292,7 +302,7 @@ public class Proposition
                 }
                 for (AbstractProposition prop : propositions)
                 {
-                    firstLine += "  " + prop + "  |";
+                    firstLine += "  " + prop.toConsole() + "  |";
                 }
                 System.out.println(firstLine);
                 for (int i = 0; i < firstLine.length() + 1; i++)

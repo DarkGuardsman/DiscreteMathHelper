@@ -25,4 +25,10 @@ public class NAND extends Conjunction
     {
         return !super.getTruthValue(inputs);
     }
+
+    @Override
+    public String toConsole()
+    {
+        return a.toConsole() + "!&" + b.toConsole();
+    }
 }

@@ -29,4 +29,10 @@ public class Conjunction extends Statement
     {
         return a.getTruthValue(inputs) && b.getTruthValue(inputs);
     }
+
+    @Override
+    public String toConsole()
+    {
+        return "(" + a.toConsole() + "&&" + b.toConsole() + ")";
+    }
 }

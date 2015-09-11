@@ -34,4 +34,9 @@ public abstract class AbstractProposition
     {
         return statement;
     }
+
+    /**
+     * Work around for unicode support not working for console
+     */
+    public abstract String toConsole();
 }

@@ -26,4 +26,10 @@ public class Conditional extends Statement
     {
         return a.getTruthValue(inputs) ? b.getTruthValue(inputs) : true;
     }
+
+    @Override
+    public String toConsole()
+    {
+        return "(" + a.toConsole() + "->" + b.toConsole() + ")";
+    }
 }

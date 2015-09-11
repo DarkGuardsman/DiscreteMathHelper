@@ -1,8 +1,8 @@
 package com.builtbroken.discretemath;
 
-import com.builtbroken.discretemath.propositions.Proposition;
-import com.builtbroken.discretemath.propositions.types.EnumTypes;
+import com.builtbroken.discretemath.gui.FrameMain;
 
+import javax.swing.*;
 import java.util.Scanner;
 
 /**
@@ -23,21 +23,23 @@ public class Main
         System.out.println("===========================================");
         Scanner in = new Scanner(System.in);
 
-        if (args != null && args.length > 0 && args[0].equalsIgnoreCase("-noGUI"))
+        boolean noGUI = args != null && args.length > 0 && args[0].equalsIgnoreCase("-noGUI");
+        if (noGUI)
         {
             //Run console mode
         }
         else
         {
-            //Run GUI mode
+            final JFrame f = new FrameMain();
+            f.setVisible(true);
         }
 
-        Proposition proposition = new Proposition("(p" + EnumTypes.BICONDITIONAL.symbol + "q)" + EnumTypes.BICONDITIONAL.symbol + "(r" + EnumTypes.BICONDITIONAL.symbol + "s)");
-        proposition.print();
-
         System.out.println("===========================================");
-        System.out.println("Done... (press 'any' key to exit");
-        //in.nextLine();
+        if (noGUI)
+        {
+            System.out.println("Done... (press 'any' key to exit)");
+            //in.nextLine();
+        }
         in.close();
     }
 }

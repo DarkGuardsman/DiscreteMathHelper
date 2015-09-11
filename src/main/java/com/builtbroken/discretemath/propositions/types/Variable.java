@@ -23,4 +23,10 @@ public class Variable extends AbstractProposition
     {
         return inputs.containsKey(character) ? inputs.get(character) : false;
     }
+
+    @Override
+    public String toConsole()
+    {
+        return toString();
+    }
 }

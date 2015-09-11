@@ -27,4 +27,10 @@ public class Negation extends AbstractProposition
     {
         return !a.getTruthValue(inputs);
     }
+
+    @Override
+    public String toConsole()
+    {
+        return "~" + a.toConsole();
+    }
 }
