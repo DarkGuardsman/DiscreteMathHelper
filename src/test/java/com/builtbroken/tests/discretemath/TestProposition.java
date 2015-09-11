@@ -156,4 +156,30 @@ public class TestProposition
         Assert.assertTrue(((XOR) prop.proposition).a instanceof Variable && ((Variable) ((XOR) prop.proposition).a).character == 'p');
         Assert.assertTrue(((XOR) prop.proposition).b instanceof Variable && ((Variable) ((XOR) prop.proposition).b).character == 'q');
     }
+
+    @Test
+    public void testJunctionStatement()
+    {
+        Proposition prop = new Proposition("(p" + EnumTypes.XOR.symbol + "q)" + EnumTypes.CONJUNCTION.symbol + "(r" + EnumTypes.CONDITIONAL.symbol + "c)");
+        Assert.assertTrue(prop.characters.contains('p'));
+        Assert.assertTrue(prop.characters.contains('q'));
+        Assert.assertTrue(prop.characters.contains('r'));
+        Assert.assertTrue(prop.characters.contains('c'));
+        Assert.assertTrue("Proposition should be an instance of Disjunction, " + prop.proposition, prop.proposition instanceof Conjunction);
+        Assert.assertTrue(((Conjunction) prop.proposition).a instanceof XOR);
+        Assert.assertTrue(((Conjunction) prop.proposition).b instanceof Conditional);
+    }
+
+    @Test
+    public void testJunctionWithPrefixStatement()
+    {
+        Proposition prop = new Proposition(EnumTypes.NEGATION.symbol + "(p" + EnumTypes.XOR.symbol + "q)" + EnumTypes.CONJUNCTION.symbol + EnumTypes.NEGATION.symbol + "(r" + EnumTypes.CONDITIONAL.symbol + "c)");
+        Assert.assertTrue(prop.characters.contains('p'));
+        Assert.assertTrue(prop.characters.contains('q'));
+        Assert.assertTrue(prop.characters.contains('r'));
+        Assert.assertTrue(prop.characters.contains('c'));
+        Assert.assertTrue("Proposition should be an instance of Disjunction, " + prop.proposition, prop.proposition instanceof Conjunction);
+        Assert.assertTrue(((Conjunction) prop.proposition).a instanceof Negation && ((Negation)((Conjunction) prop.proposition).a).a instanceof XOR);
+        Assert.assertTrue(((Conjunction) prop.proposition).b instanceof Negation && ((Negation)((Conjunction) prop.proposition).b).a instanceof Conditional);
+    }
 }

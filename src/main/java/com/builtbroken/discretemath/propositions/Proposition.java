@@ -102,22 +102,26 @@ public class Proposition
         boolean prefix = false;
         boolean prefix2 = false;
 
-        System.out.println(s);
+        //System.out.println(s);
         for (int i = 0; i < s.length(); )
         {
             Character c = s.charAt(i);
-            System.out.println(c);
+            //System.out.println(c);
             if (c == '(')
             {
-                int index = s.indexOf(')', i);
-                if (segmentA == null)
+                int index = s.indexOf(")", i);
+                if (index == -1)
                 {
-                    segmentA = s.substring(i, index);
+                    throw new RuntimeException("Invalid statement grouping, missing end cap ) from index " + i);
+                }
+                else if (segmentA == null)
+                {
+                    segmentA = s.substring(i + 1, index);
                     i = index + 1;
                 }
                 else if (segmentB == null)
                 {
-                    segmentB = s.substring(i, index);
+                    segmentB = s.substring(i + 1, index);
                     i = index + 1;
                 }
                 else
@@ -149,7 +153,7 @@ public class Proposition
                 }
                 i++;
             }
-            else if (c == EnumTypes.NEGATION.c)
+            else if (c.equals(EnumTypes.NEGATION.c))
             {
                 if (segmentA == null)
                 {
@@ -173,7 +177,7 @@ public class Proposition
                 }
                 else
                 {
-                    throw new RuntimeException("Invalid statement, mid is already set to " + mid +" but another symbol was found " + c);
+                    throw new RuntimeException("Invalid statement, mid is already set to " + mid + " but another symbol was found " + c);
                 }
                 i++;
             }
