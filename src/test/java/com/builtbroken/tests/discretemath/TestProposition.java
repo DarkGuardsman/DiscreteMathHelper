@@ -5,6 +5,8 @@ import com.builtbroken.discretemath.propositions.types.*;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.HashMap;
+
 /**
  * Test for {@link com.builtbroken.discretemath.propositions.Proposition}
  * Created by Dark on 9/10/2015.
@@ -179,7 +181,42 @@ public class TestProposition
         Assert.assertTrue(prop.characters.contains('r'));
         Assert.assertTrue(prop.characters.contains('c'));
         Assert.assertTrue("Proposition should be an instance of Disjunction, " + prop.proposition, prop.proposition instanceof Conjunction);
-        Assert.assertTrue(((Conjunction) prop.proposition).a instanceof Negation && ((Negation)((Conjunction) prop.proposition).a).a instanceof XOR);
-        Assert.assertTrue(((Conjunction) prop.proposition).b instanceof Negation && ((Negation)((Conjunction) prop.proposition).b).a instanceof Conditional);
+        Assert.assertTrue(((Conjunction) prop.proposition).a instanceof Negation && ((Negation) ((Conjunction) prop.proposition).a).a instanceof XOR);
+        Assert.assertTrue(((Conjunction) prop.proposition).b instanceof Negation && ((Negation) ((Conjunction) prop.proposition).b).a instanceof Conditional);
     }
+
+    @Test
+    public void testSectionOne()
+    {
+        //These are problems taken from Discrete Mathematics and Its Applications 7th edition by Kenneth H. Rosen
+        //These problems have been checked against correct answers so should make for good test matter
+
+        //Page 15 #33A
+        Proposition prop = new Proposition("(p" + EnumTypes.DISJUNCTION.symbol + "q)" + EnumTypes.CONDITIONAL.symbol + "(p" + EnumTypes.XOR.symbol + "q)");
+        Assert.assertTrue(prop.characters.contains('p'));
+        Assert.assertTrue(prop.characters.contains('q'));
+        Assert.assertTrue("Proposition should be an instance of Conditional, " + prop.proposition, prop.proposition instanceof Conditional);
+        Assert.assertTrue(((Conditional) prop.proposition).a instanceof Disjunction);
+        Assert.assertTrue(((Conditional) prop.proposition).b instanceof XOR);
+
+        HashMap<Character, Boolean> map = new HashMap();
+        map.put('p', true);
+        map.put('q', true);
+        Assert.assertFalse(prop.getTruthForValues(map));
+
+        map.put('p', true);
+        map.put('q', false);
+        Assert.assertTrue(prop.getTruthForValues(map));
+
+
+        map.put('p', false);
+        map.put('q', true);
+        Assert.assertTrue(prop.getTruthForValues(map));
+
+
+        map.put('p', false);
+        map.put('q', false);
+        Assert.assertTrue(prop.getTruthForValues(map));
+    }
+
 }
